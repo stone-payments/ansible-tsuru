@@ -33,12 +33,18 @@ tsuru_api_repo_manager: "none"
 tsuru_api_git_address: ""
 tsuru_api_git_port: ""
 
-# Tsuru Sentinel Confs
-tsuru_api_sentinel_address: ""
-tsuru_api_sentinel_master: ""
-tsuru_api_sentinel_password: ""
+# Tsuru Single Sentinel Confs
+tsuru_api_sentinel_master_all: ""
+tsuru_api_sentinel_password_all: ""
 
-# Tsuru Redis Confs
+# Tsuru Multiple Sentinel Confs
+tsuru_sentinels:
+  - name: ""
+    master: ""
+    address: ""
+    password: ""
+
+# Tsuru Simple Redis Confs
 tsuru_api_redis_address: ""
 tsuru_api_redis_port: ""
 tsuru_api_redis_password: ""
@@ -66,6 +72,12 @@ tsuru_api_routers:
   - name: ""
     type: ""
     domain: ""
+    sentinel_name: ""
+    sentinel_enabled: false
+
+# Tsuru Pubsub Confs
+tsuru_api_pubsub_sentinel_enabled: false
+tsuru_api_pubsub_sentinel_name: ""
 
 # Tsuru Quota Confs
 tsuru_api_quota_max_units: "100"
@@ -80,4 +92,3 @@ tsuru_api_mongo_addr: ""
 tsuru_api_mongo_tsuru_db: "tsuru"
 tsuru_api_mongo_cluster_db: "cluster"
 tsuru_api_mongo_queue_db: "queuedb"
-  

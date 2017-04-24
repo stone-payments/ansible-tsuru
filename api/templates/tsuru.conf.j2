@@ -58,31 +58,33 @@ routers:
   {{ tsuru_router.name }}:
     type: {{ tsuru_router.type }}
     domain: {{ tsuru_router.domain }}
-{% if tsuru_api_sentinel_address != "" %}
-    redis-sentinel-addrs: {{ tsuru_api_sentinel_address }}
-    redis-sentinel-master: {{ tsuru_api_sentinel_master }}
-{% if tsuru_api_sentinel_password != "" %}
-    redis-password: {{ tsuru_api_sentinel_password }}
+{% if tsuru_router.sentinel_enabled %}
+{% for tsuru_sentinel in tsuru_sentinels %}
+{% if tsuru_sentinel.name == tsuru_router.sentinel_name %}
+    redis-sentinel-addrs: {{ tsuru_sentinel.address }}
+    redis-sentinel-master: {{ tsuru_sentinel.master|default(tsuru_api_sentinel_master_all) }}
+    redis-password: {{ tsuru_sentinel.password|default(tsuru_api_sentinel_password_all) }}
 {% endif %}
-{% elif tsuru_api_redis_address != "" %}
-    redis-server: {{ tsuru_api_redis_address }}:{{ tsuru_api_redis_port }}
-{% if tsuru_api_redis_password != "" %}
-    redis-password: {{ tsuru_api_redis_password }}
+{% endfor %}
+{% else %}
+    redis-server: {{ tsuru_router.redis_address }}:{{ tsuru_router.redis_port }}
+{% if tsuru_router.redis_password != "" %}
+    redis-password: {{ tsuru_router.redis_password }}
 {% endif %}
 {% endif %}
 {% endfor %}
 pubsub:
-{% if tsuru_api_sentinel_address != "" %}
-  redis-sentinel-addrs: {{ tsuru_api_sentinel_address }}
-  redis-sentinel-master: {{ tsuru_api_sentinel_master }}
-{% if tsuru_api_sentinel_password != "" %}
-  redis-password: {{ tsuru_api_sentinel_password }}
+{% if tsuru_api_pubsub_sentinel_enabled %}
+{% for tsuru_sentinel in tsuru_sentinels %}
+{% if tsuru_sentinel.name == tsuru_api_pubsub_sentinel_name %}
+    redis-sentinel-addrs: {{ tsuru_sentinel.address }}
+    redis-sentinel-master: {{ tsuru_sentinel.master|default(tsuru_api_sentinel_master_all) }}
+    redis-password: {{ tsuru_sentinel.password|default(tsuru_api_sentinel_password_all) }}
 {% endif %}
-{% elif tsuru_api_redis_address != "" %}
-  redis-server: {{ tsuru_api_redis_address }}:{{ tsuru_api_redis_port }}
-{% if tsuru_api_redis_password != "" %}
+{% endfor %}
+{% else %}
+    redis-server: {{ tsuru_api_redis_address }}:{{ tsuru_api_redis_port }}
     redis-password: {{ tsuru_api_redis_password }}
-{% endif %}
 {% endif %}
 queue:
   mongo-url: {{ tsuru_api_mongo_addr }}
