@@ -1,0 +1,9 @@
+---
+planb_container_name: "planb"
+planb_container_image: "tsuru/planb"
+planb_container_state: "started"
+planb_container_network_mode: "host"
+planb_container_restart_policy: "always"
+planb_container_cmd: ""
+planb_container_log_driver: "json-file"
+planb_container_log_options: {}

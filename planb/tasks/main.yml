@@ -1,0 +1,16 @@
+---
+- name: install dependencies
+  package:
+    name: python-docker-py
+    state: present
+
+- name: planb container
+  docker_container:
+    name: "{{ planb_container_name }}"
+    image: "{{ planb_container_image }}"
+    state: "{{ planb_container_state }}"
+    network_mode: "{{ planb_container_network_mode }}"
+    restart_policy: "{{ planb_container_restart_policy }}"
+    log_driver: "{{ planb_container_log_driver }}"
+    log_options: "{{ planb_container_log_options }}"
+    command: "{{ planb_container_cmd }}"
