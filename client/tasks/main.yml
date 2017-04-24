@@ -1,0 +1,31 @@
+---
+- name: synchronize tsuru repos
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version }}"
+    update: true
+  with_items:
+    - repo: "https://github.com/tsuru/tsuru-client"
+      dest: "/usr/local/go/src/github.com/tsuru/tsuru-client"
+      version: "{{ tsuruClient_clientVersion }}"
+    - repo: "https://github.com/tsuru/tsuru-admin"
+      dest: "/usr/local/go/src/github.com/tsuru/tsuru-admin"
+      version: "{{ tsuruClient_adminVersion }}"
+  register: newRelease
+
+- name: build and install tsuru clients
+  shell: "cd {{ item }} && GOPATH=/usr/local/go GOBIN=/usr/local/go/bin go install"
+  when: newRelease.changed or tsuruClient_reinstall is defined
+  with_items:
+    - "/usr/local/go/src/github.com/tsuru/tsuru-client/tsuru"
+    - "/usr/local/go/src/github.com/tsuru/tsuru-admin"
+
+- name: ensure executable files
+  file:
+    path: "{{ item }}"
+    owner: root
+    mode: "0755"
+  with_items:
+    - "/usr/local/go/bin/tsuru"
+    - "/usr/local/go/bin/tsuru-admin"

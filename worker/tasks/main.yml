@@ -1,0 +1,53 @@
+---
+- name: create VG
+  tags: tsuru_disk
+  lvg:
+    vg: "{{ tsuruWorker_nameVG }}"
+    pvs: "{{ tsuruWorker_device }}"
+    state: present
+
+- name: setup monitoring service
+  tags: tsuru_monit
+  include_role:
+    name: stone.consul
+  vars:
+    consul_node_role: "client"
+    consul_datacenter: "{{ tsuru_dcName }}"
+    consul_group_name: "{{ tsuru_groupController }}"
+    consul_config_custom:
+      services:
+        - name: "docker"
+          port: "{{ tsuru_portDocker }}"
+          checks:
+            - name: "Docker service port open"
+              port: "127.0.0.1:{{ tsuru_portDocker }}"
+              interval: "10s"
+
+- name: setup container service
+  tags: tsuru_container
+  include_role:
+    name: stone.docker
+  vars:
+    docker_vg:
+      name: "{{ tsuruWorker_nameVG }}"
+      create: false
+    docker_pool:
+      name: "pool"
+      size: "{{ tsuruWorker_sizePool }}"
+      grow: true
+      autoextend:
+        enabled: false
+    docker_data:
+      enabled: true
+      name: "docker"
+      size: "{{ tsuruWorker_sizeData }}"
+    docker_tls:
+      enabled: "{{ tsuru_tlsDockerEnabled }}"
+      ca: "{{ tsuru_tlsDockerCA }}"
+      cert: "{{ tsuru_tlsDockerCert }}"
+      key: "{{ tsuru_tlsDockerKey }}"
+    docker_config:
+      hosts:
+        - "unix:///var/run/docker.sock"
+        - "tcp://0.0.0.0:{{ tsuru_portDocker }}"
+      ipv6: false

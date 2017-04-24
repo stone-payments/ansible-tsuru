@@ -1,0 +1,7 @@
+---
+tsuru_portDocker: 2376
+tsuru_portRouter: 25000
+tsuru_addrRouter: "0.0.0.0"
+tsuru_fstype: "xfs"
+
+tsuruRouter_nameVG: "tsuru"

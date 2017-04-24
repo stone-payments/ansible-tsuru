@@ -1,0 +1,44 @@
+---
+- name: create VG
+  lvg:
+    vg: "{{ tsuruController_nameVG }}"
+    pvs: "{{ tsuruController_device }}"
+    state: present
+
+- name: create LVs
+  lvol:
+    vg: "{{ tsuruController_nameVG }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+  with_items:
+    - name: nosql
+      size: "{{ tsuruController_sizeNoSQL }}"
+    - name: inmem
+      size: "{{ tsuruController_sizeInMem }}"
+    - name: search
+      size: "{{ tsuruController_sizeSearch }}"
+  failed_when: false #WORKAROUND FOR BUG https://github.com/ansible/ansible-modules-extras/issues/428
+
+- name: create filesystems
+  filesystem:
+    fstype: "{{ tsuru_fstype }}"
+    dev: "/dev/{{ tsuruController_nameVG }}/{{ item }}"
+    resizefs: false
+  with_items:
+    - nosql
+    - inmem
+    - search
+
+- name: mount filesystems
+  mount:
+    name: "{{ item.name }}"
+    src: "/dev/{{ tsuruController_nameVG }}/{{ item.src }}"
+    fstype: "{{ tsuru_fstype }}"
+    state: present
+  with_items:
+    - name: "/var/lib/mongo"
+      src: "nosql"
+    - name: "/var/lib/redis"
+      src: "inmem"
+    - name: "/var/lib/elasticsearch"
+      src: "search"

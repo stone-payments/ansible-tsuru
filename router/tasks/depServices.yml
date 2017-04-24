@@ -1,0 +1,83 @@
+---
+- name: setup disk storage
+  tags: tsuru_disk
+  include: disk.yml
+
+- name: setup inmem cache
+  tags: tsuru_inmem
+  include_role:
+    name: stone.redis
+  vars:
+    redis_srv_conn_bind: "0.0.0.0"
+    redis_srv_conn_port: "{{ tsuru_portInMem }}"
+    redis_srv_sec_password: "{{ tsuru_passAdmin }}"
+    redis_srv_repl_isMaster: false
+    redis_srv_repl_masterAddr: "{{ lookup('dig', tsuru_addrMaster) }} {{ tsuru_portInMem }}"
+    redis_srv_repl_slavePriority: 0
+    redis_sent_enabled: true
+    redis_sent_conn_port: "{{ tsuru_portSentinel }}"
+    redis_sent_monitors:
+      - name: "{{ tsuru_nameMaster }}"
+        host: "{{ tsuru_addrMaster }}"
+        port: "{{ tsuru_portInMem }}"
+        quorum: 2
+        auth_pass: "{{ tsuru_passAdmin }}"
+        down_after_milliseconds: 3000
+
+- name: setup container service
+  tags: tsuru_container
+  include_role:
+    name: stone.docker
+  vars:
+    docker_vg:
+      name: "{{ tsuruRouter_nameVG }}"
+      create: false
+    docker_pool:
+      name: "pool"
+      size: "{{ tsuruRouter_sizePool }}"
+      grow: true
+      autoextend:
+        enabled: false
+    docker_data:
+      enabled: true
+      name: "docker"
+      size: "{{ tsuruRouter_sizeData }}"
+    docker_tls:
+      enabled: "{{ tsuru_tlsDockerEnabled }}"
+      ca: "{{ tsuru_tlsDockerCA }}"
+      cert: "{{ tsuru_tlsDockerCert }}"
+      key: "{{ tsuru_tlsDockerKey }}"
+    docker_config:
+      hosts:
+        - "unix:///var/run/docker.sock"
+        - "tcp://0.0.0.0:{{ tsuru_portDocker }}"
+      ipv6: false
+
+- name: setup monitoring service
+  tags: tsuru_monit
+  include_role:
+    name: stone.consul
+  vars:
+    consul_node_role: "client"
+    consul_datacenter: "{{ tsuru_dcName }}"
+    consul_group_name: "{{ tsuru_groupController }}"
+    consul_config_custom:
+      services:
+        - name: "sentinel"
+          port: "{{ tsuru_portSentinel }}"
+          checks:
+            - name: "Sentinel service port open"
+              port: "127.0.0.1:{{ tsuru_portSentinel }}"
+              interval: "10s"
+        - name: "docker"
+          port: "{{ tsuru_portDocker }}"
+          checks:
+            - name: "Docker service port open"
+              port: "127.0.0.1:{{ tsuru_portDocker }}"
+              interval: "10s"
+        - name: "planb"
+          port: "{{ tsuru_portRouter }}"
+          checks:
+            - name: "Planb service port open"
+              port: "127.0.0.1:{{ tsuru_portRouter }}"
+              interval: "10s"

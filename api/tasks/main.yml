@@ -1,0 +1,51 @@
+---
+- name: install dependencies
+  package:
+    name: python-docker-py
+    state: present
+
+- name: ensure tsuru directory exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  with_items:
+    - "/etc/tsuru"
+    - "/etc/tsuru/certs"
+
+- name: setup tsuru certs
+  copy:
+    content: "{{ item.content }}"
+    dest: "/etc/tsuru/certs/{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - content: "{{ tsuru_api_docker_tls_ca }}"
+      dest: "ca.pem"
+      mode: "0644"
+    - content: "{{ tsuru_api_docker_tls_cert }}"
+      dest: "cert.pem"
+      mode: "0644"
+    - content: "{{ tsuru_api_docker_tls_privkey }}"
+      dest: "key.pem"
+      mode: "0600"
+  when: tsuru_api_docker_tls_enabled
+  notify: restart tsuru api
+
+- name: write tsuru config
+  template:
+    src: tsuru.conf.j2
+    dest: /etc/tsuru/tsuru.conf
+  notify: restart tsuru api
+
+- name: bring tsuru api container up
+  docker_container:
+    name: "{{ tsuru_api_container_name }}"
+    image: "{{ tsuru_api_container_image }}"
+    state: "{{ tsuru_api_container_state }}"
+    network_mode: "{{ tsuru_api_container_network_mode }}"
+    restart_policy: "{{ tsuru_api_container_restart_policy }}"
+    log_driver: "{{ tsuru_api_container_log_driver }}"
+    log_options: "{{ tsuru_api_container_log_options }}"
+    volumes:
+      - "/etc/tsuru/tsuru.conf:/etc/tsuru/tsuru.conf"
+      - "/etc/tsuru/certs:/etc/tsuru/certs"

@@ -1,0 +1,35 @@
+---
+- name: create VG
+  tags: tsuru_disk
+  lvg:
+    vg: "{{ tsuruRouter_nameVG }}"
+    pvs: "{{ tsuruRouter_device }}"
+    state: present
+
+- name: create LVs
+  lvol:
+    vg: "{{ tsuruRouter_nameVG }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+  with_items:
+    - name: inmem
+      size: "{{ tsuruRouter_sizeInMem }}"
+  failed_when: false #WORKAROUND FOR BUG https://github.com/ansible/ansible-modules-extras/issues/428
+
+- name: create filesystems
+  filesystem:
+    fstype: "{{ tsuru_fstype }}"
+    dev: "/dev/{{ tsuruRouter_nameVG }}/{{ item }}"
+    resizefs: false
+  with_items:
+    - inmem
+
+- name: mount filesystems
+  mount:
+    name: "{{ item.name }}"
+    src: "/dev/{{ tsuruRouter_nameVG }}/{{ item.src }}"
+    fstype: "{{ tsuru_fstype }}"
+    state: present
+  with_items:
+    - name: "/var/lib/redis"
+      src: "inmem"

@@ -1,0 +1,9 @@
+---
+tsuru_tlsDockerEnabled: false
+tsuru_tlsDockerCA: ""
+tsuru_tlsDockerCert: ""
+tsuru_tlsDockerKey: ""
+
+tsuruWorker_device: "/dev/sdb"
+tsuruWorker_sizePool: "40%VG"
+tsuruWorker_sizeData: "60%VG"

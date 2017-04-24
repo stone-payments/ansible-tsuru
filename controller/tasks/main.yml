@@ -1,0 +1,50 @@
+---
+- name: install package dependencies
+  tags: tsuru_packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libselinux-python
+
+- name: setup disk storage
+  tags: tsuru_disk
+  include: disk.yml
+
+- name: setup service dependencies
+  tags: tsuru_deps
+  include: depServices.yml
+
+- name: setup log collector
+  tags: tsuru_log
+  include_role:
+    name: buy4.logstash-docker
+  vars:
+    logstash_container_image: "{{ tsuru_logCollectorImage }}"
+
+- name: setup tsuru api
+  tags: tsuru_api
+  include_role:
+    name: buy4.tsuru-api-docker
+  vars:
+    tsuru_api_bind_port: "{{ tsuru_portAPI }}"
+    tsuru_api_public_address: "{{ tsuru_addrAPI }}"
+    tsuru_api_sentinel_address: "{% for host in play_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ tsuru_portSentinel }}{% if not loop.last %},{% endif %}{% endfor %}"
+    tsuru_api_sentinel_master: "{{ tsuru_nameMaster }}"
+    tsuru_api_sentinel_password: "{{ tsuru_passAdmin }}"
+    tsuru_api_docker_registry_url: "{{ tsuru_URLRegistry }}"
+    tsuru_api_docker_tls_enabled: "{{ tsuru_tlsDockerEnabled }}"
+    tsuru_api_docker_tls_ca: "{{ tsuru_tlsDockerCA }}"
+    tsuru_api_docker_tls_cert: "{{ tsuru_tlsDockerCert }}"
+    tsuru_api_docker_tls_privkey: "{{ tsuru_tlsDockerKey }}"
+    tsuru_api_mongo_addr: "mongodb://{{ tsuru_userAdmin }}:{{ tsuru_passAdmin }}@{% for host in play_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ tsuru_portNoSQL }}{% if not loop.last %},{% endif %}{% endfor %}/admin?replicaSet={{ tsuru_nameRs }}"
+    tsuru_api_smtp_server: "{{ tsuru_smtpServer }}"
+    tsuru_api_smtp_user: "{{ tsuru_smtpUser }}"
+    tsuru_api_smtp_password: "{{ tsuru_smtpPass }}"
+    tsuru_api_router_default: "{{ tsuru_defaultRouter }}"
+    tsuru_api_routers: "{{ tsuru_routers }}"
+
+- name: setup tsuru client
+  tags: tsuru_client
+  include_role:
+    name: buy4.tsuru-client

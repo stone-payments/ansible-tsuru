@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Guilherme Oki
+  description: Installation of Tsuru API
+  company: Stone Payments
+  license: MIT
+  min_ansible_version: 2.1
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  galaxy_tags:
+    - tsuru
+    - tsuru-api
+    - api
+    - docker
