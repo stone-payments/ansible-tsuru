@@ -9,7 +9,7 @@
 - name: setup monitoring service
   tags: tsuru_monit
   include_role:
-    name: stone.consul
+    name: stone-payments.consul
   vars:
     consul_node_role: "client"
     consul_datacenter: "{{ tsuru_dcName }}"
@@ -26,7 +26,7 @@
 - name: setup container service
   tags: tsuru_container
   include_role:
-    name: stone.docker
+    name: stone-payments.docker
   vars:
     docker_vg:
       name: "{{ tsuruWorker_nameVG }}"

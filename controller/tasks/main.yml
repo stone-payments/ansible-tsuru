@@ -25,7 +25,7 @@
 - name: setup tsuru api
   tags: tsuru_api
   include_role:
-    name: buy4.tsuru-api-docker
+    name: stone-payments.tsuru/api
   vars:
     tsuru_api_bind_port: "{{ tsuru_portAPI }}"
     tsuru_api_public_address: "{{ tsuru_addrAPI }}"
@@ -50,4 +50,4 @@
 - name: setup tsuru client
   tags: tsuru_client
   include_role:
-    name: buy4.tsuru-client
+    name: stone-payments.tsuru/client

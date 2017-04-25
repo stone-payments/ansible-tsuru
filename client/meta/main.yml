@@ -11,4 +11,4 @@ galaxy_info:
     - 7
   galaxy_tags:
   - paas
-dependencies: [ "stone.golang" ]
+dependencies: [ "stone-payments.golang" ]

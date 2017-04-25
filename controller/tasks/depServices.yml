@@ -2,7 +2,7 @@
 - name: setup container service
   tags: tsuru_container
   include_role:
-    name: stone.docker
+    name: stone-payments.docker
   vars:
     docker_vg:
       name: "{{ tsuruController_nameVG }}"
@@ -31,7 +31,7 @@
 - name: setup nosql storage
   tags: tsuru_nosql
   include_role:
-    name: stone.mongodb
+    name: stone-payments.mongodb
   vars:
     mongodb_conf_bindIp: "0.0.0.0"
     mongodb_conf_port: "{{ tsuru_portNoSQL }}"
@@ -46,7 +46,7 @@
 - name: setup inmemory storage
   tags: tsuru_inmem
   include_role:
-    name: stone.redis
+    name: stone-payments.redis
   vars:
     redis_srv_conn_bind: "0.0.0.0"
     redis_srv_conn_port: "{{ tsuru_portInMem }}"
@@ -65,7 +65,7 @@
 - name: setup search storage
   tags: tsuru_search
   include_role:
-    name: stone.elasticsearch
+    name: elastic.elasticsearch
   vars:
     es_instance_name: "{{ ansible_hostname }}"
     es_config:
@@ -87,7 +87,7 @@
 - name: setup monitoring service
   tags: tsuru_monit
   include_role:
-    name: stone.consul
+    name: stone-payments.consul
   vars:
     consul_node_role: "{{ 'bootstrap' if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else 'server' }}"
     consul_datacenter: "{{ tsuru_dcName }}"
@@ -151,6 +151,6 @@
 - name: setup alerting service
   tags: tsuru_alert
   include_role:
-    name: stone.consul-alerts
+    name: stone-payments.consul-alerts
   vars:
     consulAlerts_dc: "{{ tsuru_dcName }}"

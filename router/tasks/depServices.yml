@@ -6,7 +6,7 @@
 - name: setup inmem cache
   tags: tsuru_inmem
   include_role:
-    name: stone.redis
+    name: stone-payments.redis
   vars:
     redis_srv_conn_bind: "0.0.0.0"
     redis_srv_conn_port: "{{ tsuru_portInMem }}"
@@ -27,7 +27,7 @@
 - name: setup container service
   tags: tsuru_container
   include_role:
-    name: stone.docker
+    name: stone-payments.docker
   vars:
     docker_vg:
       name: "{{ tsuruRouter_nameVG }}"
@@ -56,7 +56,7 @@
 - name: setup monitoring service
   tags: tsuru_monit
   include_role:
-    name: stone.consul
+    name: stone-payments.consul
   vars:
     consul_node_role: "client"
     consul_datacenter: "{{ tsuru_dcName }}"

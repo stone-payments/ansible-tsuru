@@ -6,7 +6,7 @@
 - name: install planb router
   tags: tsuru_planb
   include_role:
-    name: buy4.planb-docker
+    name: stone-payments.tsuru/planb
   vars:
     planb_container_image: "{{ tsuru_routerImage }}"
     planb_container_cmd: "--listen {{ tsuru_addrRouter }}:{{ tsuru_portRouter }}
