@@ -13,7 +13,7 @@ tsuru_routers:
     type: "hipache"
     domain: "example.com"
     sentinel_enabled: true
-    sentinel: "someName"
+    sentinel_name: "someName"
 
 tsuru_sentinels:
   - name: "someName"
