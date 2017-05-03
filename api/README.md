@@ -1,14 +1,16 @@
 Tsuru API
 ============
 
-This roles helps to install Tsuru API using Docker. This role uses basic environments to set Tsuru API Docker.
-If you need more environments settings please visit https://docs.tsuru.io/stable/reference/config.html. 
+This roles helps to install Tsuru API using Docker. This role uses basic
+environment vars to set Tsuru API Docker.  If you need more guidance on
+settings please visit https://docs.tsuru.io/stable/reference/config.html.
 
 
 Requirements
 ------------
 
-This roles requires Docker and Tsuru API image in some registry. You can use official tsuru api image https://hub.docker.com/r/tsuru/api/.
+This roles requires Docker and Tsuru API image in some registry. You can use
+the official tsuru api image on https://hub.docker.com/r/tsuru/api/.
 
 
 Role Variables
@@ -40,21 +42,20 @@ Examples
 
       - hosts: tsuru_api
         roles:
-        - buy4.tsuru-api-docker
+        - stone-payments.tsuru/api
 
 
 Dependencies
 ------------
 
-  - buy4.docker
+  - stone-payments.docker
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
 Guilherme Oki
- 

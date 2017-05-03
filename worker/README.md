@@ -1,12 +1,12 @@
 Tsuru Worker
 ============
 
-This roles helps to deploy a Tsuru Worker using Ansible. This role uses minimal settings to deploy Tsuru Worker in Buy4 environment.
+This roles helps to deploy a Tsuru Worker using Ansible.
 
 Requirements
 ------------
 
-This roles requires block storage device and docker. 
+This roles requires block storage device and docker.
 
 Role Variables
 --------------
@@ -34,21 +34,20 @@ Examples
 
       - hosts: "{{ tsuru_worker_hostGroup }}"
         roles:
-        - buy4.tsuru-api-docker
+        - stone-payments.tsuru/worker
 
 Dependencies
 ------------
 
-  - buy4.docker
+  - stone-payments.docker
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
 Bernardo Donadio
 Guilherme Oki
- 

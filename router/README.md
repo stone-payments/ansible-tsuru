@@ -1,12 +1,12 @@
 Tsuru Router
 ============
 
-This roles helps to deploy a Tsuru Router using Ansible. This role uses minimal settings to deploy Tsuru Router in Buy4 environment.
+This roles helps to deploy a Tsuru Router using Ansible.
 
 Requirements
 ------------
 
-This roles requires block storage device, docker and redis sentinel. 
+This roles requires block storage device, docker and redis sentinel.
 
 Role Variables
 --------------
@@ -28,7 +28,7 @@ them are as follows:
 
 Some static variables that can be edited to this role.
 
-     tsuru_routerAddr: "0.0.0.0" # bind address of router 
+     tsuru_routerAddr: "0.0.0.0" # bind address of router
      tsuru_routerPort: 28000 # port bind of router
      tsuru_fstype: "xfs"
 
@@ -41,7 +41,7 @@ Examples
 
       - hosts: "{{ tsuruRouter_hostGroup }}"
         roles:
-        - buy4.tsuru-router
+        - stone-payments.tsuru/router
         vars:
           tsuru_addrMaster: "1.1.1.1"
           tsuru_nameMaster: "tsuruMaster"
@@ -52,16 +52,15 @@ Examples
 Dependencies
 ------------
 
-  - buy4.docker
+  - stone-payments.docker
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
 Bernardo Donadio
 Guilherme Oki
- 

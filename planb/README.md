@@ -1,14 +1,16 @@
 Planb Router
 ============
 
-This roles helps to install Planb using Docker. This role uses basic environments to setup Planb.
-If you need more information about Planb Router settings please visit https://github.com/tsuru/planb. 
+This roles helps to install Planb using Docker. This role uses basic
+environments to setup Planb.  If you need more information about Planb Router
+settings please visit https://github.com/tsuru/planb.
 
 
 Requirements
 ------------
 
-This roles requires Docker, some Redis and Planb Docker image in some registry. You can use official planb image https://hub.docker.com/r/tsuru/planb/.
+This roles requires Docker, some Redis and Planb Docker image in some registry.
+You can use official planb image https://hub.docker.com/r/tsuru/planb/.
 
 
 Role Variables
@@ -35,21 +37,20 @@ Examples
 
       - hosts: tsuru_router
         roles:
-        - buy4.planb-docker
+        - stone-payments.tsuru/planb
 
 
 Dependencies
 ------------
 
-  - buy4.docker
+  - stone-payments.docker
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
 Guilherme Oki
- 
