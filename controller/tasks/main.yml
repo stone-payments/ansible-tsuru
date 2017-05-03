@@ -18,7 +18,7 @@
 - name: setup log collector
   tags: tsuru_log
   include_role:
-    name: buy4.logstash-docker
+    name: stone-payments.logstash-docker
   vars:
     logstash_container_image: "{{ tsuru_logCollectorImage }}"
 
