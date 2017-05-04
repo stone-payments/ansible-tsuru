@@ -4,11 +4,11 @@ tsuru_replKey: "someLongString"
 tsuru_addrMaster: "master.example.com"
 tsuru_nameMaster: "tsuruMaster"
 tsuru_addrAPI: "api.example.com"
-tsuru_URLRegistry: "registry.example.com:5000"
-tsuru_defaultRouter: "router"
-tsuru_pubsubSentinel: true
-tsuru_pubsubSentinelName: "someName"
 
+tsuru_URLRegistry: "registry.example.com:5000"
+tsuru_routerImage: "tsuru/planb"
+
+tsuru_defaultRouter: "router"
 tsuru_routers:
   - name: "router"
     type: "hipache"
@@ -16,6 +16,8 @@ tsuru_routers:
     sentinel_enabled: true
     sentinel_name: "someName"
 
+tsuru_pubsubSentinel: true
+tsuru_pubsubSentinelName: "someName"
 tsuru_sentinels:
   - name: "someName"
     address: "someAddress"
@@ -29,9 +31,6 @@ tsuru_tlsDockerKey: ""
 tsuru_smtpServer: "some.smtp.server:587"
 tsuru_smtpUser: "someUser"
 tsuru_smtpPass: "somePassword"
-tsuru_logCollectorImage: "someRegistry/logstash"
-
-tsuru_routerImage: "someregistry/routerImage"
 
 tsuruController_device: "/dev/sdb"
 tsuruController_sizeNoSQL: "20%VG"
