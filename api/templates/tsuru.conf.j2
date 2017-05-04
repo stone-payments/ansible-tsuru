@@ -75,7 +75,7 @@ routers:
 {% endfor %}
 pubsub:
 {% if tsuru_api_pubsub_sentinel_enabled %}
-{% for tsuru_sentinel in tsuru_sentinels %}
+{% for tsuru_sentinel in tsuru_api_sentinels %}
 {% if tsuru_sentinel.name == tsuru_api_pubsub_sentinel_name %}
     redis-sentinel-addrs: {{ tsuru_sentinel.address }}
     redis-sentinel-master: {{ tsuru_sentinel.master|default(tsuru_api_sentinel_master_all) }}

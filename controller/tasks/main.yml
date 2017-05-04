@@ -46,7 +46,6 @@
     tsuru_api_routers: "{{ tsuru_routers }}"
     tsuru_api_sentinels: "{{ tsuru_sentinels }}"
 
-
 - name: setup tsuru client
   tags: tsuru_client
   include_role:

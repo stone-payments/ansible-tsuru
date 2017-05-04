@@ -38,7 +38,7 @@ tsuru_api_sentinel_master_all: ""
 tsuru_api_sentinel_password_all: ""
 
 # Tsuru Multiple Sentinel Confs
-tsuru_sentinels:
+tsuru_api_sentinels:
   - name: ""
     master: ""
     address: ""
