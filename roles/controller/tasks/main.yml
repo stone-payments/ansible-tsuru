@@ -1,4 +1,8 @@
 ---
+- set_fact:
+    isMaster: "{{ true if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else false }}"
+  tags: always
+
 - name: setup dependencies
   tags:
     - tsuru_deps

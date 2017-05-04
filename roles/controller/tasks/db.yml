@@ -11,7 +11,7 @@
     mongodb_replSet_enabled: true
     mongodb_replSet_name: "{{ tsuru_nameRs }}"
     mongodb_replSet_master: "{{ tsuru_addrMaster }}"
-    mongodb_replSet_isMaster: "{{ true if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else false }}"
+    mongodb_replSet_isMaster: isMaster
     mongodb_admin_password: "{{ tsuru_passAdmin }}"
 
 - name: setup inmemory storage
@@ -22,7 +22,7 @@
     redis_srv_conn_bind: "0.0.0.0"
     redis_srv_conn_port: "{{ tsuru_portInMem }}"
     redis_srv_sec_password: "{{ tsuru_passAdmin }}"
-    redis_srv_repl_isMaster: "{{ true if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else false }}"
+    redis_srv_repl_isMaster: isMaster
     redis_srv_repl_masterAddr: "{{ lookup('dig', tsuru_addrMaster) }} {{ tsuru_portInMem }}"
     redis_sent_enabled: true
     redis_sent_monitors:
@@ -46,7 +46,7 @@
         http.port: "{{ tsuru_portSearch }}"
         transport.tcp.port: "{{ tsuru_portSearchTransport }}"
         node.data: true
-        node.master: "{{ true if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else false }}"
+        node.master: "{{ isMaster }}"
         bootstrap.memory_lock: false
     es_heap_size: "1g"
     es_scripts: false
