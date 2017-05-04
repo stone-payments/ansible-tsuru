@@ -1,0 +1,17 @@
+---
+- name: setup monitoring service
+  tags: tsuru_monit
+  include_role:
+    name: stone-payments.consul
+  vars:
+    consul_node_role: "client"
+    consul_datacenter: "{{ tsuru_dcName }}"
+    consul_group_name: "{{ tsuru_groupController }}"
+    consul_config_custom:
+      services:
+        - name: "docker"
+          port: "{{ tsuru_portDocker }}"
+          checks:
+            - name: "Docker service port open"
+              port: "127.0.0.1:{{ tsuru_portDocker }}"
+              interval: "10s"

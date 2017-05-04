@@ -1,0 +1,40 @@
+---
+- name: setup disk storage
+  tags:
+    - tsuru_disk
+    - tsuru_router
+  include: disk.yml
+
+- name: setup container service
+  tags:
+    - tsuru_container
+    - tsuru_router
+  include: container.yml
+
+- name: setup databases
+  tags:
+    - tsuru_db
+    - tsuru_router
+  include: db.yml
+
+- name: setup monitoring
+  tags:
+    - tsuru_monit
+    - tsuru_router
+  include: monit.yml
+
+- name: setup planb router
+  tags:
+    - tsuru_planb
+    - tsuru_router
+  include_role:
+    name: stone-payments.planb
+  vars:
+    planb_container_image: "{{ tsuru_routerImage }}"
+    planb_container_cmd: "--listen {{ tsuru_addrRouter }}:{{ tsuru_portRouter }}
+      --read-redis-host 127.0.0.1
+      --read-redis-port {{ tsuru_portInMem }}
+      --read-redis-password {{ tsuru_passAdmin }}
+      --write-redis-sentinel-name {{ tsuru_nameMaster }}
+      --write-redis-sentinel-addrs 127.0.0.1:{{ tsuru_portSentinel }}
+      --write-redis-password {{ tsuru_passAdmin }}"

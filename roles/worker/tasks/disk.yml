@@ -1,0 +1,7 @@
+---
+- name: create VG
+  tags: tsuru_disk
+  lvg:
+    vg: "{{ tsuruWorker_nameVG }}"
+    pvs: "{{ tsuruWorker_device }}"
+    state: present

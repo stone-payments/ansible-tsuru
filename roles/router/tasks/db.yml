@@ -1,0 +1,21 @@
+---
+- name: setup inmem cache
+  tags: tsuru_inmem
+  include_role:
+    name: stone-payments.redis
+  vars:
+    redis_srv_conn_bind: "0.0.0.0"
+    redis_srv_conn_port: "{{ tsuru_portInMem }}"
+    redis_srv_sec_password: "{{ tsuru_passAdmin }}"
+    redis_srv_repl_isMaster: false
+    redis_srv_repl_masterAddr: "{{ lookup('dig', tsuru_addrMaster) }} {{ tsuru_portInMem }}"
+    redis_srv_repl_slavePriority: 0
+    redis_sent_enabled: true
+    redis_sent_conn_port: "{{ tsuru_portSentinel }}"
+    redis_sent_monitors:
+      - name: "{{ tsuru_nameMaster }}"
+        host: "{{ tsuru_addrMaster }}"
+        port: "{{ tsuru_portInMem }}"
+        quorum: 2
+        auth_pass: "{{ tsuru_passAdmin }}"
+        down_after_milliseconds: 3000

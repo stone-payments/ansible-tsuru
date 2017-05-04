@@ -1,0 +1,71 @@
+---
+- name: setup consul server
+  tags: tsuru_consul
+  include_role:
+    name: stone-payments.consul
+  vars:
+    consul_node_role: "{{ 'bootstrap' if tsuru_addrMaster in ansible_all_ipv4_addresses or tsuru_addrMaster == inventory_hostname else 'server' }}"
+    consul_datacenter: "{{ tsuru_dcName }}"
+    consul_group_name: "{{ tsuru_groupController }}"
+    consul_config_custom:
+      services:
+        - name: "mongodb"
+          port: "{{ tsuru_portNoSQL }}"
+          checks:
+            - id: "mongodbTcpOpen"
+              name: "MongoDB TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portNoSQL }}"
+              interval: "10s"
+        - name: "redis"
+          port: "{{ tsuru_portInMem }}"
+          checks:
+            - id: "redisTcpOpen"
+              name: "Redis TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portInMem }}"
+              interval: "10s"
+        - name: "sentinel"
+          port: "{{ tsuru_portSentinel }}"
+          checks:
+            - id: "sentinelTcpOpen"
+              name: "Sentinel TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portSentinel }}"
+              interval: "10s"
+        - name: "elasticsearch"
+          port: "{{ tsuru_portSearch }}"
+          checks:
+            - id: "elasticsearchApiTcpOpen"
+              name: "ElasticSearch API TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portSearch }}"
+              interval: "10s"
+            - id: "elasticsearchTransportTcpOpen"
+              name: "ElasticSearch Transport TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portSearchTransport }}"
+              interval: "10s"
+            - id: "elasticsearchClusterHealth"
+              name: "ElasticSearch cluster health"
+              http: "http://127.0.0.1:{{ tsuru_portSearch }}/_cluster/health"
+              interval: "10s"
+        - name: "docker"
+          port: "{{ tsuru_portDocker }}"
+          checks:
+            - id: "dockerApiTcpOpen"
+              name: "Docker API TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portDocker }}"
+              interval: "10s"
+        - name: "api"
+          port: "{{ tsuru_portAPI }}"
+          checks:
+            - id: "tsuruApiTcpOpen"
+              name: "Tsuru API TCP port open"
+              tcp: "127.0.0.1:{{ tsuru_portAPI }}"
+              interval: "10s"
+            - id: "tsuruApiHttpOk"
+              http: "http://127.0.0.1:{{ tsuru_portAPI }}/healthcheck"
+              interval: "10s"
+
+- name: setup consul-alerts
+  tags: tsuru_consul-alerts
+  include_role:
+    name: stone-payments.consul-alerts
+  vars:
+    consulAlerts_dc: "{{ tsuru_dcName }}"

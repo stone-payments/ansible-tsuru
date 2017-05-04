@@ -1,0 +1,62 @@
+---
+- name: setup dependencies
+  tags:
+    - tsuru_deps
+    - tsuru_controller
+  include: deps.yml
+
+- name: setup disk storage
+  tags:
+    - tsuru_disk
+    - tsuru_controller
+  include: disk.yml
+
+- name: setup container service
+  tags:
+    - tsuru_container
+    - tsuru_controller
+  include: container.yml
+
+- name: setup databases
+  tags:
+    - tsuru_db
+    - tsuru_controller
+  include: db.yml
+
+- name: setup monitoring
+  tags:
+    - tsuru_monit
+    - tsuru_controller
+  include: monit.yml
+
+- name: setup utils
+  tags:
+    - tsuru_utils
+    - tsuru_controller
+  include: utils.yml
+
+- name: setup tsuru api
+  tags:
+    - tsuru_api
+    - tsuru_controller
+  include_role:
+    name: stone-payments.tsuru-api
+  vars:
+    tsuru_api_bind_port: "{{ tsuru_portAPI }}"
+    tsuru_api_public_address: "{{ tsuru_addrAPI }}"
+    tsuru_api_sentinel_master_all: "{{ tsuru_nameMaster }}"
+    tsuru_api_sentinel_password_all: "{{ tsuru_passAdmin }}"
+    tsuru_api_docker_registry_url: "{{ tsuru_URLRegistry }}"
+    tsuru_api_docker_tls_enabled: "{{ tsuru_tlsDockerEnabled }}"
+    tsuru_api_docker_tls_ca: "{{ tsuru_tlsDockerCA }}"
+    tsuru_api_docker_tls_cert: "{{ tsuru_tlsDockerCert }}"
+    tsuru_api_docker_tls_privkey: "{{ tsuru_tlsDockerKey }}"
+    tsuru_api_mongo_addr: "mongodb://{{ tsuru_userAdmin }}:{{ tsuru_passAdmin }}@{% for host in play_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ tsuru_portNoSQL }}{% if not loop.last %},{% endif %}{% endfor %}/admin?replicaSet={{ tsuru_nameRs }}"
+    tsuru_api_smtp_server: "{{ tsuru_smtpServer }}"
+    tsuru_api_smtp_user: "{{ tsuru_smtpUser }}"
+    tsuru_api_smtp_password: "{{ tsuru_smtpPass }}"
+    tsuru_api_router_default: "{{ tsuru_defaultRouter }}"
+    tsuru_api_pubsub_sentinel_enabled: "{{ tsuru_pubsubSentinel }}"
+    tsuru_api_pubsub_sentinel_name: "{{ tsuru_pubsubSentinelName }}"
+    tsuru_api_routers: "{{ tsuru_routers }}"
+    tsuru_api_sentinels: "{{ tsuru_sentinels }}"

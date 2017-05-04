@@ -1,6 +1,0 @@
----
-- name: restart tsuru api
-  docker_container:
-    name: "{{ tsuru_api_container_name }}"
-    state: started
-    restart: yes

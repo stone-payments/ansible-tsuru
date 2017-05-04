@@ -1,0 +1,50 @@
+---
+tsuru_passAdmin: "somePassword"
+tsuru_replKey: "someLongString"
+tsuru_addrMaster: "master.example.com"
+tsuru_nameMaster: "tsuruMaster"
+tsuru_addrAPI: "api.example.com"
+tsuru_URLRegistry: "registry.example.com:5000"
+tsuru_defaultRouter: "router"
+tsuru_pubsubSentinel: true
+tsuru_pubsubSentinelName: "someName"
+
+tsuru_routers:
+  - name: "router"
+    type: "hipache"
+    domain: "example.com"
+    sentinel_enabled: true
+    sentinel_name: "someName"
+
+tsuru_sentinels:
+  - name: "someName"
+    address: "someAddress"
+    master: "someMasterName"
+    password: "somePassword"
+
+tsuru_tlsDockerEnabled: false
+tsuru_tlsDockerCA: ""
+tsuru_tlsDockerCert: ""
+tsuru_tlsDockerKey: ""
+tsuru_smtpServer: "some.smtp.server:587"
+tsuru_smtpUser: "someUser"
+tsuru_smtpPass: "somePassword"
+tsuru_logCollectorImage: "someRegistry/logstash"
+
+tsuru_routerImage: "someregistry/routerImage"
+
+tsuruController_device: "/dev/sdb"
+tsuruController_sizeNoSQL: "20%VG"
+tsuruController_sizeInMem: "10%VG"
+tsuruController_sizeSearch: "35%VG"
+tsuruController_sizePool: "20%VG"
+tsuruController_sizeData: "10%VG"
+
+tsuruRouter_device: "/dev/sdb"
+tsuruRouter_sizeInMem: "10%VG"
+tsuruRouter_sizePool: "50%VG"
+tsuruRouter_sizeData: "30%VG"
+
+tsuruWorker_device: "/dev/sdb"
+tsuruWorker_sizePool: "40%VG"
+tsuruWorker_sizeData: "60%VG"

@@ -1,4 +1,0 @@
----
-tsuru_portDocker: 2376
-
-tsuruWorker_nameVG: "tsuru"

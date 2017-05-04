@@ -1,0 +1,29 @@
+---
+- name: setup consul agent
+  tags: tsuru_consul
+  include_role:
+    name: stone-payments.consul
+  vars:
+    consul_node_role: "client"
+    consul_datacenter: "{{ tsuru_dcName }}"
+    consul_group_name: "{{ tsuru_groupController }}"
+    consul_config_custom:
+      services:
+        - name: "sentinel"
+          port: "{{ tsuru_portSentinel }}"
+          checks:
+            - name: "Sentinel service port open"
+              port: "127.0.0.1:{{ tsuru_portSentinel }}"
+              interval: "10s"
+        - name: "docker"
+          port: "{{ tsuru_portDocker }}"
+          checks:
+            - name: "Docker service port open"
+              port: "127.0.0.1:{{ tsuru_portDocker }}"
+              interval: "10s"
+        - name: "planb"
+          port: "{{ tsuru_portRouter }}"
+          checks:
+            - name: "Planb service port open"
+              port: "127.0.0.1:{{ tsuru_portRouter }}"
+              interval: "10s"
