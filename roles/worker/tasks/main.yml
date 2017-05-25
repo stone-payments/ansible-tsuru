@@ -16,3 +16,4 @@
     - tsuru_monit
     - tsuru_worker
   include: monit.yml
+  when: tsuru_monit

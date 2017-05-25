@@ -32,6 +32,8 @@ tsuru_smtpServer: "some.smtp.server:587"
 tsuru_smtpUser: "someUser"
 tsuru_smtpPass: "somePassword"
 
+tsuru_monit: false
+
 tsuruController_device: "/dev/sdb"
 tsuruController_sizeNoSQL: "20%VG"
 tsuruController_sizeInMem: "10%VG"
