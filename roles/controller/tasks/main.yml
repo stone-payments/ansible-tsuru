@@ -47,6 +47,7 @@
   include_role:
     name: stone-payments.tsuru-api
   vars:
+    tsuru_api_container_log_driver: "journald"
     tsuru_api_bind_port: "{{ tsuru_portAPI }}"
     tsuru_api_public_address: "{{ tsuru_addrAPI }}"
     tsuru_api_sentinel_master_all: "{{ tsuru_nameMaster }}"
