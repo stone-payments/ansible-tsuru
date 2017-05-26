@@ -9,6 +9,7 @@ tsuru_portAPI: 28000
 tsuru_portRouter: 25000
 tsuru_addrRouter: "0.0.0.0"
 tsuru_userAdmin: "admin"
+tsuru_dialTimeoutRouter: 30
 tsuru_nameRs: "tsuru"
 tsuru_nameMaster: "tsuruMaster"
 tsuru_fstype: "xfs"
