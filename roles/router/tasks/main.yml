@@ -39,4 +39,4 @@
       --write-redis-sentinel-name {{ tsuru_nameMaster }}
       --write-redis-sentinel-addrs 127.0.0.1:{{ tsuru_portSentinel }}
       --write-redis-password {{ tsuru_passAdmin }}
-      ----dial-timeout {{ tsuru_dialTimeoutRouter }}"
+      --dial-timeout {{ tsuru_dialTimeoutRouter }}"
