@@ -36,7 +36,7 @@
 - name: setup search storage
   tags: tsuru_search
   include_role:
-    name: elastic.elasticsearch
+    name: stone-payments.elasticsearch
   vars:
     es_instance_name: "{{ ansible_hostname }}"
     es_config:
