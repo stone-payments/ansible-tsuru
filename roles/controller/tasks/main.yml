@@ -66,3 +66,4 @@
     tsuru_api_pubsub_sentinel_name: "{{ tsuru_pubsubSentinelName }}"
     tsuru_api_routers: "{{ tsuru_routers }}"
     tsuru_api_sentinels: "{{ tsuru_sentinels }}"
+    tsuru_api_quota_max_units: "{{ tsuru_quotaUnits }}"
