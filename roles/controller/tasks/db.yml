@@ -23,6 +23,7 @@
     redis_srv_conn_port: "{{ tsuru_portInMem }}"
     redis_srv_sec_password: "{{ tsuru_passAdmin }}"
     redis_srv_repl_isMaster: "{{ isMaster }}"
+    redis_srv_repl_slavePriority: "{{ 1 if isMaster else 100 }}"
     redis_srv_repl_masterAddr: "{{ tsuru_addrMaster }} {{ tsuru_portInMem }}"
     redis_sent_enabled: true
     redis_sent_monitors:
