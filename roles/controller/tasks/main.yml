@@ -27,12 +27,6 @@
     - tsuru_controller
   include: db.yml
 
-- name: setup utils
-  tags:
-    - tsuru_utils
-    - tsuru_controller
-  include: utils.yml
-
 - name: setup tsuru api
   tags:
     - tsuru_api
