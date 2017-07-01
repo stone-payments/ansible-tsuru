@@ -17,13 +17,6 @@
     - tsuru_router
   include: db.yml
 
-- name: setup monitoring
-  tags:
-    - tsuru_monit
-    - tsuru_router
-  include: monit.yml
-  when: tsuru_monit
-
 - name: setup planb router
   tags:
     - tsuru_planb

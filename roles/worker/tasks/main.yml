@@ -10,10 +10,3 @@
     - tsuru_container
     - tsuru_worker
   include: container.yml
-
-- name: setup monitoring
-  tags:
-    - tsuru_monit
-    - tsuru_worker
-  include: monit.yml
-  when: tsuru_monit

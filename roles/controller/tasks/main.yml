@@ -27,13 +27,6 @@
     - tsuru_controller
   include: db.yml
 
-- name: setup monitoring
-  tags:
-    - tsuru_monit
-    - tsuru_controller
-  include: monit.yml
-  when: tsuru_monit
-
 - name: setup utils
   tags:
     - tsuru_utils
