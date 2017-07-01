@@ -1,5 +1,0 @@
----
-- name: setup tsuru client
-  tags: tsuru_client
-  include_role:
-    name: stone-payments.tsuru-client
