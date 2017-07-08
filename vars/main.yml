@@ -13,6 +13,11 @@ tsuru_dialTimeoutRouter: 30
 tsuru_nameRs: "tsuru"
 tsuru_nameMaster: "tsuruMaster"
 tsuru_fstype: "xfs"
+tsuru_docker_defaults:
+  hosts:
+    - "unix:///var/run/docker.sock"
+    - "tcp://0.0.0.0:{{ tsuru_portDocker}}"
+  ipv6: false
 
 tsuruController_nameVG: "tsuru"
 tsuruRouter_nameVG: "tsuru"
