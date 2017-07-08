@@ -13,6 +13,7 @@
     mongodb_replSet_master: "{{ tsuru_addrMaster }}"
     mongodb_replSet_isMaster: "{{ isMaster }}"
     mongodb_admin_password: "{{ tsuru_passAdmin }}"
+  when: tsuru_nosql
 
 - name: setup inmemory storage
   tags: tsuru_inmem
@@ -33,6 +34,7 @@
         quorum: 2
         auth_pass: "{{ tsuru_passAdmin }}"
         down_after_milliseconds: 3000
+  when: tsuru_inmem
 
 - name: setup search storage
   tags: tsuru_search
@@ -55,3 +57,4 @@
     es_version_lock: true
     es_plugins:
      - plugin: ingest-geoip
+  when: tsuru_search
