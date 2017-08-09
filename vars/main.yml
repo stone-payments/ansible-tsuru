@@ -7,6 +7,7 @@ tsuru_portSearchTransport: 9300
 tsuru_portSentinel: 26379
 tsuru_portAPI: 28000
 tsuru_portRouter: 25000
+tsuru_portRouterTLS: 25443
 tsuru_addrRouter: "0.0.0.0"
 tsuru_userAdmin: "admin"
 tsuru_dialTimeoutRouter: 30

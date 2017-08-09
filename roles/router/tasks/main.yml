@@ -26,6 +26,7 @@
   vars:
     planb_container_image: "{{ tsuru_routerImage }}"
     planb_container_cmd: "--listen {{ tsuru_addrRouter }}:{{ tsuru_portRouter }}
+      --tls-listen {{ tsuru_addrRouter }}:{{ tsuru_portRouterTLS }}
       --read-redis-host 127.0.0.1
       --read-redis-port {{ tsuru_portInMem }}
       --read-redis-password {{ tsuru_passAdmin }}
