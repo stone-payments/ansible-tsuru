@@ -2,8 +2,6 @@
 tsuru_portDocker: 2376
 tsuru_portNoSQL: 27017
 tsuru_portInMem: 6379
-tsuru_portSearch: 9200
-tsuru_portSearchTransport: 9300
 tsuru_portSentinel: 26379
 tsuru_portAPI: 28000
 tsuru_portRouter: 25000

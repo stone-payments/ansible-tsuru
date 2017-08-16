@@ -15,8 +15,6 @@
       size: "{{ tsuruController_sizeNoSQL }}"
     - name: inmem
       size: "{{ tsuruController_sizeInMem }}"
-    - name: search
-      size: "{{ tsuruController_sizeSearch }}"
   failed_when: false #WORKAROUND FOR BUG https://github.com/ansible/ansible-modules-extras/issues/428
 
 - name: create filesystems
@@ -27,7 +25,6 @@
   with_items:
     - nosql
     - inmem
-    - search
 
 - name: mount filesystems
   mount:
@@ -40,5 +37,3 @@
       src: "nosql"
     - name: "/var/lib/redis"
       src: "inmem"
-    - name: "/var/lib/elasticsearch"
-      src: "search"

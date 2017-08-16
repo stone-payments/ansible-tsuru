@@ -35,26 +35,3 @@
         auth_pass: "{{ tsuru_passAdmin }}"
         down_after_milliseconds: 10000
   when: tsuru_inmem
-
-- name: setup search storage
-  tags: tsuru_search
-  include_role:
-    name: stone-payments.elasticsearch
-  vars:
-    es_instance_name: "{{ ansible_hostname }}"
-    es_config:
-        cluster.name: "{{ tsuru_nameRs }}"
-        discovery.zen.ping.unicast.hosts: "{{ tsuru_addrMaster }} {{ tsuru_portSearchTransport }}"
-        network.host: "0.0.0.0"
-        http.port: "{{ tsuru_portSearch }}"
-        transport.tcp.port: "{{ tsuru_portSearchTransport }}"
-        node.data: true
-        node.master: "{{ isMaster }}"
-        bootstrap.memory_lock: false
-    es_heap_size: "1g"
-    es_scripts: false
-    es_templates: false
-    es_version_lock: true
-    es_plugins:
-     - plugin: ingest-geoip
-  when: tsuru_search
