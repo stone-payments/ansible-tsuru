@@ -1,4 +1,10 @@
 ---
+- name: "ensure Ansible version that is not hit by bug #24430"
+  assert:
+    that: "ansible_version.full | version_compare('2.4', '>=')"
+    msg: "You must update Ansible to at least the version 2.4 to use this role."
+  tags: always
+
 - name: setup disk storage
   tags:
     - tsuru_disk
@@ -30,9 +36,8 @@
       --read-redis-host 127.0.0.1
       --read-redis-port {{ tsuru_portInMem }}
       --read-redis-password {{ tsuru_passAdmin }}
-      --write-redis-sentinel-name {{ tsuru_nameMaster }}
-      --write-redis-sentinel-addrs 127.0.0.1:{{ tsuru_portSentinel }}
-      --write-redis-sentinel-addrs {% for addr in tsuru_addrControllers %}{{ addr }}:{{ tsuru_portSentinel }}{% if not loop.last %},{% endif %}{% endfor %}
-      --write-redis-password {{ tsuru_passAdmin }}
       --dial-timeout {{ tsuru_dialTimeoutRouter }}
-      --request-timeout {{ tsuru_requestTimeoutRouter }}"
+      --request-timeout {{ tsuru_requestTimeoutRouter }}
+      --write-redis-sentinel-name {{ tsuru_nameMaster }}
+      --write-redis-password {{ tsuru_passAdmin }}
+      --write-redis-sentinel-addrs \"{% for addr in tsuru_addrControllers %}{{ addr }}:{{ tsuru_portSentinel }}{% if not loop.last %},{% endif %}{% endfor %}\""
