@@ -18,4 +18,4 @@
         port: "{{ tsuru_portInMem }}"
         quorum: 2
         auth_pass: "{{ tsuru_passAdmin }}"
-        down_after_milliseconds: 3000
+        down_after_milliseconds: 10000
