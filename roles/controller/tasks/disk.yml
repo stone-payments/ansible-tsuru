@@ -5,7 +5,7 @@
     pvs: "{{ tsuruController_device }}"
     state: present
 
-- name: create LVs
+- name: create LVs for all APIs
   lvol:
     vg: "{{ tsuruController_nameVG }}"
     lv: "{{ item.name }}"
@@ -17,7 +17,7 @@
       size: "{{ tsuruController_sizeInMem }}"
   failed_when: false #WORKAROUND FOR BUG https://github.com/ansible/ansible-modules-extras/issues/428
 
-- name: create filesystems
+- name: create filesystems for all APIs
   filesystem:
     fstype: "{{ tsuru_fstype }}"
     dev: "/dev/{{ tsuruController_nameVG }}/{{ item }}"
@@ -26,7 +26,7 @@
     - nosql
     - inmem
 
-- name: mount filesystems
+- name: mount filesystems for all APIs
   mount:
     name: "{{ item.name }}"
     src: "/dev/{{ tsuruController_nameVG }}/{{ item.src }}"
@@ -37,3 +37,24 @@
       src: "nosql"
     - name: "/var/lib/redis"
       src: "inmem"
+
+- block:
+    - name: create prometheus LV for metrics master
+      lvol:
+        vg: "{{ tsuruController_nameVG }}"
+        lv: "metrics"
+        size: "{{ tsuruController_sizeMetrics }}"
+
+    - name: create prometheus filesystem for metrics master
+      filesystem:
+        fstype: "{{ tsuru_fstype }}"
+        dev: "/dev/{{ tsuruController_nameVG }}/metrics"
+        resizefs: false
+
+    - name: mount prometheus filesystem for metrics master
+      mount:
+        name: "/var/lib/prometheus"
+        src: "/dev/{{ tsuruController_nameVG }}/metrics"
+        fstype: "{{ tsuru_fstype }}"
+        state: present
+  when: isMaster
