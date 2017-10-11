@@ -1,6 +1,8 @@
 ---
 - name: setup nosql storage
-  tags: tsuru_nosql
+  tags:
+    - tsuru_nosql
+    - tsuru_mongodb
   include_role:
     name: stone-payments.mongodb
   vars:
@@ -16,7 +18,9 @@
   when: tsuru_nosql
 
 - name: setup inmemory storage
-  tags: tsuru_inmem
+  tags:
+    - tsuru_inmem
+    - tsuru_redis
   include_role:
     name: stone-payments.redis
   vars:
@@ -35,3 +39,11 @@
         auth_pass: "{{ tsuru_passAdmin }}"
         down_after_milliseconds: 10000
   when: tsuru_inmem
+
+- name: setup metrics storage
+  tags:
+    - tsuru_metrics
+    - tsuru_prometheus
+  include_role:
+    name: stone-payments.prometheus
+  when: isMaster and tsuru_metrics
