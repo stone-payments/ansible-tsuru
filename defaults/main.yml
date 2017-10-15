@@ -39,6 +39,7 @@ tsuru_docker_config: {}
 tsuru_nosql: true
 tsuru_inmem: true
 tsuru_metrics: true
+tsuru_collector: true
 
 tsuruController_device: "/dev/sdb"
 tsuruController_sizeNoSQL: "20%VG"
