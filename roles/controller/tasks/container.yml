@@ -28,7 +28,7 @@
 
 - name: setup container metric collector
   tags:
-    - tsuru_collector
+    - tsuru_metrics
     - tsuru_cadvisor
   include_role:
     name: stone-payments.cadvisor

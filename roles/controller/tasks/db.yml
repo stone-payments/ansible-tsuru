@@ -40,10 +40,12 @@
         down_after_milliseconds: 10000
   when: tsuru_inmem
 
-- name: setup metrics storage
+- name: setup metrics storage and collection
   tags:
     - tsuru_metrics
     - tsuru_prometheus
   include_role:
     name: stone-payments.prometheus
-  when: isMaster and tsuru_metrics
+  vars:
+    prometheus_db: "{{ isMaster }}"
+  when: tsuru_metrics
