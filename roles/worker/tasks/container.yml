@@ -1,6 +1,8 @@
 ---
 - name: setup container service
-  tags: tsuru_container
+  tags:
+    - tsuru_container
+    - tsuru_docker
   include_role:
     name: stone-payments.docker
   vars:
@@ -23,3 +25,11 @@
       cert: "{{ tsuru_tlsDockerCert }}"
       key: "{{ tsuru_tlsDockerKey }}"
     docker_config: "{{ tsuru_docker_defaults | combine(tsuru_docker_config, recursive=true) }}"
+
+- name: setup container metric collector
+  tags:
+    - tsuru_metrics
+    - tsuru_cadvisor
+  include_role:
+    name: stone-payments.cadvisor
+  when: tsuru_collector

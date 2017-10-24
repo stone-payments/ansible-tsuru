@@ -1,6 +1,8 @@
 ---
 - name: setup nosql storage
-  tags: tsuru_nosql
+  tags:
+    - tsuru_nosql
+    - tsuru_mongodb
   include_role:
     name: stone-payments.mongodb
   vars:
@@ -16,7 +18,9 @@
   when: tsuru_nosql
 
 - name: setup inmemory storage
-  tags: tsuru_inmem
+  tags:
+    - tsuru_inmem
+    - tsuru_redis
   include_role:
     name: stone-payments.redis
   vars:
@@ -36,25 +40,12 @@
         down_after_milliseconds: 10000
   when: tsuru_inmem
 
-- name: setup search storage
-  tags: tsuru_search
+- name: setup metrics storage and collection
+  tags:
+    - tsuru_metrics
+    - tsuru_prometheus
   include_role:
-    name: stone-payments.elasticsearch
+    name: stone-payments.prometheus
   vars:
-    es_instance_name: "{{ ansible_hostname }}"
-    es_config:
-        cluster.name: "{{ tsuru_nameRs }}"
-        discovery.zen.ping.unicast.hosts: "{{ tsuru_addrMaster }} {{ tsuru_portSearchTransport }}"
-        network.host: "0.0.0.0"
-        http.port: "{{ tsuru_portSearch }}"
-        transport.tcp.port: "{{ tsuru_portSearchTransport }}"
-        node.data: true
-        node.master: "{{ isMaster }}"
-        bootstrap.memory_lock: false
-    es_heap_size: "1g"
-    es_scripts: false
-    es_templates: false
-    es_version_lock: true
-    es_plugins:
-     - plugin: ingest-geoip
-  when: tsuru_search
+    prometheus_db: "{{ isMaster }}"
+  when: tsuru_metrics

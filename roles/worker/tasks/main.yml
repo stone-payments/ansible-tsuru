@@ -11,6 +11,16 @@
     - tsuru_worker
   include: disk.yml
 
+- name: setup node metrics collection
+  tags:
+    - tsuru_metrics
+    - tsuru_prometheus
+  include_role:
+    name: stone-payments.prometheus
+  vars:
+    prometheus_db: false
+  when: tsuru_metrics
+
 - name: setup container service
   tags:
     - tsuru_container

@@ -23,6 +23,16 @@
     - tsuru_router
   include: db.yml
 
+- name: setup node metrics collection
+  tags:
+    - tsuru_metrics
+    - tsuru_prometheus
+  include_role:
+    name: stone-payments.prometheus
+  vars:
+    prometheus_db: false
+  when: tsuru_metrics
+
 - name: setup planb router
   tags:
     - tsuru_planb
