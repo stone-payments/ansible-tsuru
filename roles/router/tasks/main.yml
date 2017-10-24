@@ -46,8 +46,10 @@
       --read-redis-host 127.0.0.1
       --read-redis-port {{ tsuru_portInMem }}
       --read-redis-password {{ tsuru_passAdmin }}
+      --read-redis-db {{ tsuru_redisDB }}
       --dial-timeout {{ tsuru_dialTimeoutRouter }}
       --request-timeout {{ tsuru_requestTimeoutRouter }}
       --write-redis-sentinel-name {{ tsuru_nameMaster }}
       --write-redis-password {{ tsuru_passAdmin }}
+      --write-redis-db {{ tsuru_redisDB }}
       --write-redis-sentinel-addrs \"{% for addr in tsuru_addrControllers %}{{ addr }}:{{ tsuru_portSentinel }}{% if not loop.last %},{% endif %}{% endfor %}\""
