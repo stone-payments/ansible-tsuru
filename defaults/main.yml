@@ -5,6 +5,8 @@ tsuru_addrMaster: "master.example.com"
 tsuru_nameMaster: "tsuruMaster"
 tsuru_addrAPI: "api.example.com"
 tsuru_quotaUnits: 3
+tsuru_readTimeoutAPI: 5
+tsuru_writeTimeoutAPI: 5
 
 tsuru_URLRegistry: "registry.example.com:5000"
 tsuru_routerImage: "tsuru/planb"

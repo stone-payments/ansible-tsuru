@@ -43,6 +43,8 @@
     tsuru_api_container_log_driver: "journald"
     tsuru_api_bind_port: "{{ tsuru_portAPI }}"
     tsuru_api_public_address: "{{ tsuru_addrAPI }}"
+    tsuru_api_server_read_timeout: "{{ tsuru_readTimeoutAPI }}"
+    tsuru_api_server_write_timeout: "{{ tsuru_writeAPITimeoutAPI }}"
     tsuru_api_sentinel_master_all: "{{ tsuru_nameMaster }}"
     tsuru_api_sentinel_password_all: "{{ tsuru_passAdmin }}"
     tsuru_api_docker_registry_url: "{{ tsuru_URLRegistry }}"
