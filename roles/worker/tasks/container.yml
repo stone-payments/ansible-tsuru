@@ -26,6 +26,12 @@
       key: "{{ tsuru_tlsDockerKey }}"
     docker_config: "{{ tsuru_docker_defaults | combine(tsuru_docker_config, recursive=true) }}"
 
+- name: create symbolic link for Docker socket
+  file:
+    src: /var/run/docker.sock
+    dest: /var/run/docker-link.sock
+    state: link
+
 - name: setup container metric collector
   tags:
     - tsuru_metrics
