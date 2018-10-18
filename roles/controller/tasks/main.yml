@@ -50,7 +50,7 @@
     tsuru_api_docker_tls_ca: "{{ tsuru_tlsDockerCA }}"
     tsuru_api_docker_tls_cert: "{{ tsuru_tlsDockerCert }}"
     tsuru_api_docker_tls_privkey: "{{ tsuru_tlsDockerKey }}"
-    tsuru_api_mongo_addr: "mongodb://{{ tsuru_userAdmin }}:{{ tsuru_passAdmin }}@{% for host in play_hosts %}{{ hostvars[host]['ansible_default_ipv4']['address'] }}:{{ tsuru_portNoSQL }}{% if not loop.last %},{% endif %}{% endfor %}/admin?replicaSet={{ tsuru_nameRs }}"
+    tsuru_api_mongo_addr: "mongodb://{{ tsuru_userAdmin }}:{{ tsuru_passAdmin }}@{% for host in tsuru_addrControllers %}{{ host }}:{{ tsuru_portNoSQL }}{% if not loop.last %},{% endif %}{% endfor %}/admin?replicaSet={{ tsuru_nameRs }}"
     tsuru_api_smtp_server: "{{ tsuru_smtpServer }}"
     tsuru_api_smtp_user: "{{ tsuru_smtpUser }}"
     tsuru_api_smtp_password: "{{ tsuru_smtpPass }}"
