@@ -3,7 +3,7 @@
   tags:
     - tsuru_inmem
     - tsuru_redis
-  include_role:
+  import_role:
     name: stone-payments.redis
   vars:
     redis_srv_conn_bind: "0.0.0.0"
