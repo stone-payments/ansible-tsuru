@@ -37,7 +37,7 @@
   tags:
     - tsuru_planb
     - tsuru_router
-  include_role:
+  import_role:
     name: stone-payments.planb
   vars:
     planb_container_image: "{{ tsuru_routerImage }}"

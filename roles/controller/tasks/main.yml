@@ -37,7 +37,7 @@
   tags:
     - tsuru_api
     - tsuru_controller
-  include_role:
+  import_role:
     name: stone-payments.tsuru-api
   vars:
     tsuru_api_container_log_driver: "journald"
