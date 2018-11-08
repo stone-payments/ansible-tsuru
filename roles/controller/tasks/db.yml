@@ -3,7 +3,7 @@
   tags:
     - tsuru_nosql
     - tsuru_mongodb
-  include_role:
+  import_role:
     name: stone-payments.mongodb
   vars:
     mongodb_conf_bindIp: "0.0.0.0"
