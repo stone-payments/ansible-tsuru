@@ -1,6 +1,8 @@
 ---
 - name: setup inmem cache
-  tags: tsuru_inmem
+  tags:
+    - tsuru_inmem
+    - tsuru_redis
   include_role:
     name: stone-payments.redis
   vars:
